@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Image Processing</h1>
+<form action="/process_image" method="post" enctype="multipart/form-data">
+    <input type="file" name="image" id="image" accept="image/*" required onchange="previewImage(event)">
+    <button type="submit">Upload and Process</button>
+</form>
+
+<!-- Image Preview -->
+<div id="image-preview" style="margin-top: 20px;">
+    {% if original_image_url %}
+        <h3>Original Image</h3>
+        <img src="{{ original_image_url }}" alt="Uploaded Image" style="max-width: 100%; max-height: 300px;">
+    {% else %}
+        <p>No image selected</p>
+    {% endif %}
+</div>
+
+<h1>Image Processing Results</h1>
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% else %}
+    <div>
+        <h2>Green Hue Detection</h2>
+        <img src="{{ result_green_url }}" alt="Green Hue Result" />
+    </div>
+    <div>
+        <h2>Red Hue Detection</h2>
+        <img src="{{ result_red_url }}" alt="Red Hue Result" />
+    </div>
+    <div>
+        <h2>Shadow Removed</h2>
+        <img src="{{ shadow_removed_url }}" alt="Shadow Removed Result" />
+    </div>
+    <div>
+        <h2>Enhanced Grayscale + Combined</h2>
+        <img src="{{ combined_image_url }}" alt="Enhanced Grayscale Result" />
+    </div>
+{% endif %}
+
+<!-- JavaScript for Image Preview -->
+<script>
+function previewImage(event) {
+    const previewContainer = document.getElementById('image-preview');
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewContainer.innerHTML = `
+                <h3>Preview</h3>
+                <img src="${e.target.result}" alt="Image Preview" style="max-width: 100%; max-height: 300px;">
+            `;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewContainer.innerHTML = '<p>No image selected</p>';
+    }
+}
+</script>
+
+{% endblock %}

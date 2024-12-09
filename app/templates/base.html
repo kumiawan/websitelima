@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html data-theme="emerald"></html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>RedSpinach App</title>
+</head>
+<body>
+    <!-- navbar -->
+    <div class="navbar bg-base-100 text-[#590C18]">
+        <div class="flex-1">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="RedSpinach" class="w-28">
+        </div>
+        <div class="flex-none">
+          <ul class="menu menu-horizontal px-1">
+            <li><a href="/">Home</a></li>
+            <li><a href="/class">Clasification</a></li>
+            <li><a href="/image_processing">Image Processing</a></li>
+          </ul>
+        </div>
+      </div>
+     <div id="content">{% block content %} {%endblock%}</div>
+     <div id="footer">{% block footer %} {%endblock%}</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Prediction Results</h1>
+
+<form action="/class" method="POST" enctype="multipart/form-data">
+    <label for="image">Select an image:</label>
+    <input type="file" name="image" id="image" accept="image/*" required onchange="previewImage(event)">
+
+    <!-- Image Preview -->
+    <div id="image-preview" style="margin-top: 20px;">
+        {% if uploaded_image_url %}
+            <img src="{{ uploaded_image_url }}" alt="Uploaded Image" style="max-width: 100%; max-height: 300px;">
+        {% else %}
+            <p>No image selected</p>
+        {% endif %}
+    </div>
+    
+    <button type="submit">Predict</button>
+</form>
+
+<!-- Prediction Results -->
+{% if prediction %}
+    <div class="result bg-green-600">
+        <h2>Prediction Results</h2>
+        <p><strong>Label:</strong> {{ prediction.label }}</p>
+        <p><strong>Confidence:</strong> {{ prediction.confidence }}</p>
+    </div>
+{% elif error %}
+    <div class="error">
+        <p><strong>Error:</strong> {{ error }}</p>
+    </div>
+{% endif %}
+
+<!-- JavaScript for Image Preview -->
+<script>
+function previewImage(event) {
+    const previewContainer = document.getElementById('image-preview');
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewContainer.innerHTML = `<img src="${e.target.result}" alt="Image Preview" style="max-width: 100%; max-height: 300px;">`;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewContainer.innerHTML = '<p>No image selected</p>';
+    }
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html"%}
+{% block content %}
+<!-- hero -->
+<div class="hero bg-base-100 min-h-screen">
+  <div class="hero-content flex-col lg:flex-row">
+    <img src="{{ url_for('static', filename='images/hero.png')}}" 
+    class="rounded-lg w-80 p-4 my-2" />
+    <div>
+      <h1 class="text-8xl font-bold text-[#590C18]">Red</h1>
+      <h1 class="text-8xl font-bold text-[#590C18]">Spinach</h1>
+      <p class="text-2xl font-medium text-[#590C18] py-6">Bayam Merah</p>
+      <a href="/class"
+      class="btn btn-lg btn-wide btn-accent text-neutral-content">Spinach Scan
+        <img src="{{ url_for('static', filename='images/arrow.png')}}" alt="x">
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="flex gap-4 justify-center items-center my-8">
+  <div class="bg-[#590C18] text-neutral-content w-[35rem] h-72 p-4 rounded rounded-xl">
+    <h1 class="text-2xl font-semibold mb-2">Apa itu Bayam Merah?</h1>
+    <text>
+      Bayam merah atau biasa disebut bayam Cina merupakan
+      salah satu tanaman bernilai ekonomis tinggi. Meski bayam
+      merah memiliki rasa yang sama dengan bayam hijau,
+      kandungan zat warnanya menjadikan manfaat bayam merah
+      sebagai antioksidan lebih unggul. Sama seperti bayam pada
+      umumnya, tumbuhan bernama Latin Amaranthus dubius ini
+      dianggap memiliki segudang manfaat. Walau disebut bayam
+      merah, bayam jenis ini memiliki daun dan batang berwarna
+      merah keunguan.
+    </text>
+  </div>
+  <img src="{{ url_for('static', filename='images/hero1.png')}}" alt="x" class="p-4">
+</div>
+
+<div class="text-center my-4">
+<span class="text-5xl text-[#590C18]"> Klasifikasi Bayam Merah </span>
+</div>
+
+<div class="flex justify-center gap-4 my-10">
+  <div class="card bg-base-100 w-96 shadow-xl">
+    <figure class="px-10 pt-10">
+      <img src="{{ url_for('static', filename='images/crousel1.png')}}" alt="cukup nutrisi" class="rounded-xl" />
+    </figure>
+    <div class="card-body items-center text-center">
+      <h2 class="card-title">Bayam Merah Cukup Nutrisi</h2>
+      <p>Bayam memiliki warna yang intens ( merah pekat), dengan daun yang cenderung lonjong dan lebar. </p>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 w-96 shadow-xl">
+    <figure class="px-10 pt-10">
+      <img src="{{ url_for('static', filename='images/crousel2.png')}}" alt="cukup nutrisi" class="rounded-xl" />
+    </figure>
+    <div class="card-body items-center text-center">
+      <h2 class="card-title">Bayam Merah Kurang Nutrisi</h2>
+      <p>Bayam memiliki warna yang dominan hijau, ukuran daun bayam lebih kecil</p>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 w-96 shadow-xl">
+    <figure class="px-10 pt-10">
+      <img src="{{ url_for('static', filename='images/crousel3.png')}}" alt="cukup nutrisi" class="rounded-xl" />
+    </figure>
+    <div class="card-body items-center text-center">
+      <h2 class="card-title">Bayam Merah Daun Rusak</h2>
+      <p>Bayam memiliki daun berlubang, yang disebabkan oleh hama/ serangga.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}
+
+
+{%block footer%}
+<footer class="footer bg-[#590C18] text-neutral-content p-10">
+  <nav>
+    <h6 class="footer-title">Bayam Merah</h6>
+    <a class="link link-hover">Politeknik Negeri Jember</a>
+    <a class="link link-hover">Teknik informatika - Jurusan Teknologi Informasi 2024</a>
+  </nav>
+  <nav>
+    <a href="/" class="link link-hover">Home</a>
+    <a href="/about" class="link link-hover">About us</a>
+    <a href="/contact" class="link link-hover">Contact Us</a>
+    <a href="/class" class="link link-hover">Classification</a>
+    <a href="/image_processing" class="link link-hover">Image Processing</a>
+  </nav>
+</footer>
+{%endblock%}
