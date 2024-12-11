@@ -1,43 +1,90 @@
 {% extends "base.html" %}
-{% block content %}
-<h1>Image Processing</h1>
-<form action="/process_image" method="post" enctype="multipart/form-data">
-    <input type="file" name="image" id="image" accept="image/*" required onchange="previewImage(event)">
-    <button type="submit">Upload and Process</button>
-</form>
+    {% block content %}
+<div class="bg-cover bg-[url(./../static/images/background1.png)]">
+    <div class="container mx-auto bg-white bg-opacity-60">
+    <h1 class="font-bold text-center text-4xl text-[#982B1C] mb-4">RedSpinach Scan</h1>
 
-<!-- Image Preview -->
-<div id="image-preview" style="margin-top: 20px;">
-    {% if original_image_url %}
-        <h3>Original Image</h3>
-        <img src="{{ original_image_url }}" alt="Uploaded Image" style="max-width: 100%; max-height: 300px;">
-    {% else %}
-        <p>No image selected</p>
-    {% endif %}
+        <div class="grid grid-cols-3 gap-4 place-items-center">
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+            {% else %}
+            <div>
+                <div id="image-preview">
+                    {% if original_image_url %}
+                    <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg flex justify-center items-center">
+                        <img src="{{ original_image_url }}" alt="Uploaded Image" class="max-w-full max-h-full">
+                    </div>
+                    <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Original Image</h3>
+                    {% else %}
+                    <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg"> 
+                        <p class="flex justify-center items-center w-full h-full">+</p>
+                    </div>
+                    <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Original Image</h3>
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                {% if result_green_url %}
+                <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg flex justify-center items-center">
+                    <img src="{{  result_green_url }}" alt="Uploaded Image" class="max-w-full max-h-full">
+                </div>
+                <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Hue Green Detection</h3>
+                {% else %}
+                <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg"> 
+                    <p class="flex justify-center items-center w-full h-full">+</p>
+                </div>
+                <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Hue Green Detection</h3>
+                {% endif %}
+            </div>
+            <div>
+                {% if result_red_url%}
+                <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg flex justify-center items-center">
+                    <img src="{{result_red_url}}" alt="Uploaded Image" class="max-w-full max-h-full">
+                </div>
+                <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Hue Red Detection</h3>
+                {% else %}
+                <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg"> 
+                    <p class="flex justify-center items-center w-full h-full">+</p>
+                </div>
+                <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Hue Red Detection</h3>
+                {% endif %}
+            </div>
+            <div>
+                {% if shadow_removed_url  %}
+                <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg flex justify-center items-center">
+                    <img src="{{shadow_removed_url  }}" alt="Uploaded Image" class="max-w-full max-h-full">
+                </div>
+                <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Shadow Removed</h3>
+                {% else %}
+                <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg"> 
+                    <p class="flex justify-center items-center w-full h-full">+</p>
+                </div>
+                <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Shadow Removed</h3>
+                {% endif %}
+            </div>
+            <div>
+                <form action="/process_image" method="post" enctype="multipart/form-data">
+                    <input type="file" name="image" id="image" accept="image/*" required onchange="previewImage(event)">
+                    <button class="btn btn-primary" type="submit">Upload and Process</button>
+                </form>
+            </div>
+            <div>
+                {% if combined_image_url   %}
+                <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg flex justify-center items-center">
+                    <img src="{{combined_image_url}}" alt="Uploaded Image" class="max-w-full max-h-full">
+                </div>
+                <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Enhanced Grayscale + Combined</h3>
+                {% else %}
+                <div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg"> 
+                    <p class="flex justify-center items-center w-full h-full">+</p>
+                </div>
+                <h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Enhanced Grayscale + Combined</h3>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
 </div>
-
-<h1>Image Processing Results</h1>
-{% if error %}
-    <p style="color: red;">{{ error }}</p>
-{% else %}
-    <div>
-        <h2>Green Hue Detection</h2>
-        <img src="{{ result_green_url }}" alt="Green Hue Result" />
-    </div>
-    <div>
-        <h2>Red Hue Detection</h2>
-        <img src="{{ result_red_url }}" alt="Red Hue Result" />
-    </div>
-    <div>
-        <h2>Shadow Removed</h2>
-        <img src="{{ shadow_removed_url }}" alt="Shadow Removed Result" />
-    </div>
-    <div>
-        <h2>Enhanced Grayscale + Combined</h2>
-        <img src="{{ combined_image_url }}" alt="Enhanced Grayscale Result" />
-    </div>
-{% endif %}
-
 <!-- JavaScript for Image Preview -->
 <script>
 function previewImage(event) {
@@ -48,9 +95,11 @@ function previewImage(event) {
         const reader = new FileReader();
         reader.onload = function(e) {
             previewContainer.innerHTML = `
-                <h3>Preview</h3>
-                <img src="${e.target.result}" alt="Image Preview" style="max-width: 100%; max-height: 300px;">
-            `;
+<div class="w-60 h-60 bg-gradient-to-t from-red-100 rounded-lg flex justify-center items-center">
+    <img src="${e.target.result}" alt="Uploaded Image" class="max-w-full max-h-full">
+</div>
+<h3 class="text-center bg-[#982B1C] text-neutral-100 rounded-full p-2 my-4 font-bold">Original Image Preview</h3>
+`;
         };
         reader.readAsDataURL(file);
     } else {

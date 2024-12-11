@@ -1,35 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Prediction Results</h1>
 
-<form action="/class" method="POST" enctype="multipart/form-data">
-    <label for="image">Select an image:</label>
-    <input type="file" name="image" id="image" accept="image/*" required onchange="previewImage(event)">
+<div class="bg-[#982B1C] h-screen">
+<div class="grid grid-rows-8 grid-flow-col gap-4 ">
+  <div class="row-span-8 grid justify-center items-center">
+            <!-- Image Preview -->
+            <div id="image-preview" class="my-4 bg-neutral-50 w-80 h-80 flex justify-center items-center rounded-lg" ">
+                {% if uploaded_image_url %}
+                <img src="{{ uploaded_image_url }}" alt="Uploaded Image" class="max-w-full h-[300px]" ">
+                {% else %}
+                <p>No image selected</p>
+                {% endif %}
+            </div>
+        <div>
+        <form class="text-neutral-100" action="/class" method="POST" enctype="multipart/form-data">
+            <label for="image">Select an image:</label>
+            <input type="file" name="image" id="image" accept="image/*" required onchange="previewImage(event)">
+            <button class="btn btn-primary" type="submit">Predict</button>
+        </form>
+        </div>
+    </div>
 
-    <!-- Image Preview -->
-    <div id="image-preview" style="margin-top: 20px;">
-        {% if uploaded_image_url %}
-            <img src="{{ uploaded_image_url }}" alt="Uploaded Image" style="max-width: 100%; max-height: 300px;">
-        {% else %}
-            <p>No image selected</p>
-        {% endif %}
+  <div id="heading" class="col-span-2 pt-4">
+        <span class="text-2xl font-bold text-neutral-100">
+        Classification
+        </span>
     </div>
-    
-    <button type="submit">Predict</button>
-</form>
 
-<!-- Prediction Results -->
-{% if prediction %}
-    <div class="result bg-green-600">
-        <h2>Prediction Results</h2>
-        <p><strong>Label:</strong> {{ prediction.label }}</p>
-        <p><strong>Confidence:</strong> {{ prediction.confidence }}</p>
-    </div>
-{% elif error %}
-    <div class="error">
-        <p><strong>Error:</strong> {{ error }}</p>
-    </div>
-{% endif %}
+        <div id="resClassification" class="row-span-7 col-span-2 ">
+            <!-- Prediction Results -->
+            <div class="h-full bg-neutral-100 p-8 rounded-2xl">
+                {% if prediction %}
+                <div>
+                    <p class="text-2xl font-bold"> {{ prediction.label }}</p>
+                    <p class="text-2xl">Confidence : {{ (prediction.confidence * 100)|round(2) }}%</p>
+                </div>
+            </div>
+            {% elif error %}
+            <div class="error">
+                <p><strong>Error:</strong> {{ error }}</p>
+            </div>
+            {%else%}
+                <p class="text-2xl font-bold">cukup nutrisi, kurang nutrisi, rusak</p>
+                <p class="text-2xl">Confidence : -</p>
+            {% endif %}
+        </div>
+</div>
+</div>
+
 
 <!-- JavaScript for Image Preview -->
 <script>
@@ -40,7 +58,7 @@ function previewImage(event) {
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            previewContainer.innerHTML = `<img src="${e.target.result}" alt="Image Preview" style="max-width: 100%; max-height: 300px;">`;
+            previewContainer.innerHTML = `<img src="${e.target.result}" alt="Image Preview" class="max-w-full h-[300px]" ">`;
         };
         reader.readAsDataURL(file);
     } else {
